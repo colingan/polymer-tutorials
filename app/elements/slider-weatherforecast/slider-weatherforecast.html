@@ -18,6 +18,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	  color: gray;
     }
 	
+	paper-slider.orange {
+		--paper-slider-knob-color: var(--paper-orange-500);
+		--paper-slider-active-color: var(--paper-orange-500);
+		--paper-slider-pin-color: var(--paper-orange-500);
+	}
+	
+	.iron-selected {
+		background: #eee;
+	}
+	
+	paper-slider {
+		width: 100%;
+	}
+	
 	h1{
 		text-align: center;
 	}
@@ -68,7 +82,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
 	<paper-material class="headMaterial">
 		<h1>Weather Forcast</h1>
-		<paper-input is="iron-input" bind-value="{{cityName}}"></paper-input>
+		<paper-input is="iron-input" bind-value="{{cityName}}" placeholder="Please input the city name, such as: Beijing"></paper-input>
+		<paper-slider id="paperslider" value="1" max="20" step="1" snaps pin></paper-slider>
 		<br/>
 		<b>{{cityName}}</b>
 		<br/>
@@ -141,11 +156,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	updateWeather: function() {
 		var cityName = document.querySelector("input[is=iron-input]").value;
 		console.log(cityName);
+		var count = document.getElementById("paperslider").value;
 		this.weatherParams = {
 			q: cityName,
-			cnt: 7
+			cnt: count
 		}
-		var request = document.getElementById("weatherAjax").generateRequest();
+		//var request = document.getElementById("weatherAjax").generateRequest();
 		
 		//return cityName;
 	}
