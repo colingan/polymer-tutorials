@@ -37,6 +37,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		margin-right: 100px;
 		margin-top: 10px;
 		color: white;
+		width: 200px;
 	}
 	
 	.cityData span{
@@ -71,19 +72,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		Count: <span>{{ajaxResponse.cnt}}</span><br/>
 	</paper-material>
 	<br/>
-	<template is="dom-repeat" items="[[ajaxResponse.list]]">
-		<paper-material class="cityTempData" elevation="5">
-			Date: <span>{{item.dt}}</span><br/>
-			<template is="dom-repeat" items="[[item.weather]]">
-				Condition: <span>{{item.main}}</span><br/>
-				Description: <span>{{item.description}}</span><br/>
-			</template>
-			Min. Temp: <span>{{item.main.temp_min}}</span><br/>
-			Max. Temp: <span>{{item.main.temp_max}}</span><br/>
-			Pressure: <span>{{item.main.pressure}}</span><br/>
-			humidity: <span>{{item.main.humidity}}</span><br/>
-		</paper-material>
-	</template>
+	<section class="flex layout horizontal wrap">
+		<template is="dom-repeat" items="[[ajaxResponse.list]]">
+			<paper-material class="cityTempData" elevation="5">
+				Date: <span>{{item.dt}}</span><br/>
+				<template is="dom-repeat" items="[[item.weather]]">
+					Condition: <span>{{item.main}}</span><br/>
+					Description: <span>{{item.description}}</span><br/>
+				</template>
+				Min. Temp: <span>{{item.main.temp_min}}</span><br/>
+				Max. Temp: <span>{{item.main.temp_max}}</span><br/>
+				Pressure: <span>{{item.main.pressure}}</span><br/>
+				humidity: <span>{{item.main.humidity}}</span><br/>
+			</paper-material>
+		</template>
+	</section>
   </template>
 </dom-module>
 <script>
