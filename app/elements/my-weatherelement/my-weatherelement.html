@@ -1,0 +1,154 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+
+<dom-module id="my-weatherelement">
+  <style>
+    :host {
+      display: block;
+	  font-family: '微软雅黑';
+	  color: gray;
+    }
+	
+	.iron-selected {
+		background: #eee;
+	}
+	
+	paper-slider {
+		width: 100%;
+	}
+	
+	h1{
+		text-align: center;
+	}
+	
+	.cityData {
+		background: orange;
+		padding: 20px;
+		margin-left: 100px;
+		margin-right: 100px;
+		color: white;
+	}
+	
+	.cityTempData {
+		background: #03A9F4;
+		padding: 20px;
+		margin-left: 100px;
+		margin-right: 100px;
+		margin-top: 10px;
+		color: white;
+		width: 200px;
+	}
+	
+	.cityData span{
+		margin-left: 30px;
+	}
+	
+	.basicData {
+		text-align: center;
+	}
+	
+	.headMaterial{
+		background: #FFF;
+		padding: 20px;
+		margin-left: 100px;
+		margin-right: 100px;
+		margin-bottom: 10px;
+	}
+	
+	span {
+		margin-left: 30px;
+	}
+	
+	.mybutton {
+		background: dodgerblue;
+		color: white;
+	}
+  </style>
+  <template>
+	<paper-material class="headMaterial">
+		<h1>天气查询</h1>
+		<paper-input is="iron-input" placeholder="请输入城市拼音，例如: Beijing"></paper-input>
+		<br/>
+		<paper-button class="mybutton" on-click="updateWeather">查询</paper-button>
+	</paper-material>
+	<!-- ajax查询天气数据 -->
+	<iron-ajax 
+		id="weatherAjax"
+		auto
+		url="http://api.openweathermap.org/data/2.5/forecast"
+		params="{{weatherParams}}"
+		handle-as="json"
+		on-response="handleResponse"
+		last-response="{{ajaxResponse}}"></iron-ajax>
+	<br/>
+	<!-- 呈现查询结果信息 -->
+	<paper-material class="cityData" elevation="3">
+		ID: <span>{{ajaxResponse.city.id}}</span><br/>
+		Name: <span>{{ajaxResponse.city.name}}</span><br/>
+		Long: <span>{{ajaxResponse.city.coord.lon}}</span><br/>
+		Lat: <span>{{ajaxResponse.city.coord.lat}}</span><br/>
+		Country: <span>{{ajaxResponse.city.country}}</span><br/>
+		Message: <span>{{ajaxResponse.message}}</span><br/>
+		Count: <span>{{ajaxResponse.cnt}}</span><br/>
+	</paper-material>
+	<br/>
+	<section class="flex layout horizontal wrap">
+		<template is="dom-repeat" items="[[ajaxResponse.list]]">
+			<paper-material class="cityTempData" elevation="5">
+				Date: <span>{{item.dt}}</span><br/>
+				<template is="dom-repeat" items="[[item.weather]]">
+					Condition: <span>{{item.main}}</span><br/>
+					Description: <span>{{item.description}}</span><br/>
+				</template>
+				Min. Temp: <span>{{item.main.temp_min}}</span><br/>
+				Max. Temp: <span>{{item.main.temp_max}}</span><br/>
+				Pressure: <span>{{item.main.pressure}}</span><br/>
+				humidity: <span>{{item.main.humidity}}</span><br/>
+			</paper-material>
+		</template>
+	</section>
+  </template>
+</dom-module>
+<script>
+(function() {
+  Polymer({
+    is: 'my-weatherelement',
+	
+	properties: {
+		weatherParams: {
+			type: Object,
+			value: function() {
+				// 给定默认值：Beijing
+				return {
+					"q" : "Beijing",
+					"cnt" : 7
+				}
+			},
+			notify: true
+		  }
+	},
+	
+	updateWeather: function() {
+		// 获取城市名
+		var cityName = document.querySelector("input[is=iron-input]").value;
+		this.weatherParams = {
+			q: cityName,
+			cnt: 7	// 默认查询一周的
+		}
+	},
+	
+	handleResponse: function() {
+		console.log("data received.");
+	}
+  });
+})();
+</script>
