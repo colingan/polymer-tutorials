@@ -17,7 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   </style>
   <template>
-    <iron-pages selected="0">
+    <iron-pages id="mypage" selected="0">
             <div>One</div>
             <div>Two</div>
             <div>Three</div>
@@ -38,7 +38,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         value: 'bar',
         notify: true
       }
-    }
+    },
+          
+          changePage: function() {
+          
+          this.$.mypage.selectNext();
+          }
   });
 })();
 </script>
