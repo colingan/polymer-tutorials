@@ -10,30 +10,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<dom-module id="my-route">
+<dom-module id="my-404page">
   <style>
     :host {
       display: block;
     }
   </style>
   <template>
-      <app-router>
-          <app-route path="/contacts" import="/elements/my-contacts/my-contacts.html"></app-route>
-          <app-route path="/users" import="/elements/my-users/my-users.html"></app-route>
-          <app-route path="/path/:idname" import="/elements/my-pathextractor/my-pathextractor.html"></app-route>
-          <app-route path="*" import="/elements/my-404page/my-404page.html"></app-route>
-      </app-router>
+    <h1>{{foo}}</h1>
   </template>
 </dom-module>
 <script>
 (function() {
   Polymer({
-    is: 'my-route',
+    is: 'my-404page',
 
     properties: {
       foo: {
         type: String,
-        value: 'bar',
+        value: '404 Page',
         notify: true
       }
     }
